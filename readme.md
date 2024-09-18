@@ -3,11 +3,7 @@ A RESTful API for simple online store API with Go
 
 It is a just simple tutorial or example for making simple RESTful API with Go using **gorilla/mux** (A nice mux library) and **gorm** (An ORM for Go)
 
-## Installation & Run
-```bash
-# Download this project
-go get github.com/mingrammer/go-todo-rest-api-example
-```
+## Run
 
 Before running API server, you should set the database and JWT secret key config with your on a `.env` file
 ```env
