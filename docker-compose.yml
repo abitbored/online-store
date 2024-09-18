@@ -1,18 +1,46 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres
-    environment:
-      POSTGRES_USER: abi
-      POSTGRES_PASSWORD: tulangayam
-      POSTGRES_DB: store
-    ports:
-      - "5432:5432"
-
   app:
     build: .
+    container_name: online-store
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: mydb
+    networks:
+      - app-network
+    entrypoint: ["/wait-for-it.sh", "db:5432", "-t", "60", "--", "./main"]
+
+  db:
+    image: postgres:bookworm
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
