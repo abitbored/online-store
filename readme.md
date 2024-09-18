@@ -70,12 +70,3 @@ JWT_SECRET=your_super_secret_key
 
 #### /cart/checkout
 * `POST` : Checkout all item from user's shopping cart
-
-#### /projects/:title/tasks/:id
-* `GET` : Get a task of a project
-* `PUT` : Update a task of a project
-* `DELETE` : Delete a task of a project
-
-#### /projects/:title/tasks/:id/complete
-* `PUT` : Complete a task of a project
-* `DELETE` : Undo a task of a project
